@@ -158,6 +158,7 @@ int g_rotate_resolution_mode = 0;
 int g_keep_aspect_rate = 0;
 int g_scsp_sync = 1;
 int g_frame_skip = 1;
+int g_SH2_cache = 0;
 int g_emulated_bios = 1;
 InputManager* inputmng;
 MenuScreen * menu;
@@ -238,6 +239,7 @@ int yabauseinit()
   yinit.cartpath = cartpath;
   yinit.videoformattype = VIDEOFORMATTYPE_NTSC;
   yinit.frameskip = g_frame_skip;
+  yinit.use_sh2_cache = g_SH2_cache;
   yinit.usethreads = 0;
   yinit.skip_load = 0;    
   yinit.video_filter_type = 0;
@@ -264,8 +266,6 @@ int yabauseinit()
 #endif
 
   yinit.use_cpu_affinity = 1;
-
-  yinit.use_sh2_cache = 1;
 
   res = YabauseInit(&yinit);
   if( res == -1) {
@@ -465,6 +465,9 @@ int main(int argc, char** argv)
   Uint32  evToggleFrameSkip = SDL_RegisterEvents(1);
   menu->setToggleFrameSkip(evToggleFrameSkip);
 
+  Uint32  evToggleSH2Cache = SDL_RegisterEvents(1);
+  menu->setToggleSH2Cache(evToggleSH2Cache);
+
   Uint32  evUpdateConfig = SDL_RegisterEvents(1);
   menu->setUpdateConfig(evUpdateConfig);
 
@@ -573,6 +576,16 @@ int main(int argc, char** argv)
           DisableAutoFrameSkip();
         }
         hideMenuScreen();         
+      }
+      else if(e.type == evToggleSH2Cache ){
+        if( g_SH2_cache == 0 ){
+          g_SH2_cache = 1;
+          cache_enable();
+        }else{
+          g_SH2_cache= 0;
+          cache_disable();
+        }
+      hideMenuScreen();             
       }
       else if(e.type == evOpenTray ){
         menu->setCurrentGamePath(cdpath);

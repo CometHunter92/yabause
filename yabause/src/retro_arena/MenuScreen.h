@@ -91,8 +91,11 @@ public:
 	uint32_t toggile_fps_ = 0;
 	void setToggleFpsCode( uint32_t type ){ toggile_fps_ = type; }
 
-	uint32_t toggile_frame_skip_ = 0;
+    uint32_t toggile_frame_skip_ = 0;
 	void setToggleFrameSkip( uint32_t type ){ toggile_frame_skip_ = type; }
+
+    uint32_t toggle_sh2_cache_ = 0;
+	void setToggleSH2Cache( uint32_t type ){ toggle_sh2_cache_ = type; }
 
 	uint32_t update_config_ = 0;
 	void setUpdateConfig( uint32_t type ){ update_config_ = type; }

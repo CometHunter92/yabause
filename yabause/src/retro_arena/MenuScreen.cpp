@@ -60,6 +60,7 @@ extern int g_keep_aspect_rate;
 extern int g_rotate_resolution_mode;
 extern int g_scsp_sync;
 extern int g_frame_skip;
+extern int g_sh2_cache;
 extern int g_emulated_bios;
 
 
@@ -216,10 +217,22 @@ MenuScreen::MenuScreen( SDL_Window* pwindow, int rwidth, int rheight, const std:
           event.user.data2 = 0;
           SDL_PushEvent(&event);          
         });        
-#if 0
-        Button *b4 = new Button(tools, "About");
+
+        Button *b4 = new Button(tools, "Enable/Disable SH2 cache");
         b4->setFixedWidth(248);
-        b4->setCallback([this,b4]() { 
+        b4->setCallback([this]() { 
+          MENU_LOG("SH2 cache\n");  
+          SDL_Event event = {};
+          event.type = toggle_sh2_cache_;
+          event.user.code = 0;
+          event.user.data1 = 0;
+          event.user.data2 = 0;
+          SDL_PushEvent(&event);          
+        });        
+#if 0
+        Button *b5 = new Button(tools, "About");
+        b5->setFixedWidth(248);
+        b5->setCallback([this,b5]() { 
           int image_pix_size_w = this->width() / 2;
           int image_pix_size_h = this->height() / 2;
           imageWindow = new Window(this, "About");                                                                                                         
@@ -249,7 +262,7 @@ MenuScreen::MenuScreen( SDL_Window* pwindow, int rwidth, int rheight, const std:
           imageWindow->setModal(true);
           imageWindow->requestFocus();
 
-          pushActiveMenu(imageWindow,b4);
+          pushActiveMenu(imageWindow,b5);
 
         });
 #endif

@@ -527,6 +527,9 @@ int main(int argc, char** argv)
   Uint32  evToggleFrameSkip = SDL_RegisterEvents(1);
   menu->setToggleFrameSkip(evToggleFrameSkip);
 
+  Uint32  evToggleSH2Cache = SDL_RegisterEvents(1);
+  menu->setToggleSH2Cache(evToggleSH2Cache);
+
   Uint32  evUpdateConfig = SDL_RegisterEvents(1);
   menu->setUpdateConfig(evUpdateConfig);
 
@@ -633,6 +636,21 @@ int main(int argc, char** argv)
         }else{
           g_frame_skip = 0;
           DisableAutoFrameSkip();
+        }
+        menu_show = false;
+        inputmng->setMenuLayer(nullptr);
+        SDL_GL_MakeCurrent(wnd,nullptr);
+        VdpResume();
+        SNDSDL.UnMuteAudio();         
+      }
+
+      else if(e.type == evToggleSH2Cache ){
+        if( g_SH2_cache == 0 ){
+          g_SH2_cache = 1;
+          cache_enable();
+        }else{
+          g_SH2_cache= 0;
+          cache_disable();
         }
         menu_show = false;
         inputmng->setMenuLayer(nullptr);
